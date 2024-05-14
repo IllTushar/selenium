@@ -15,8 +15,8 @@ if __name__ == "__main__":
     time.sleep(3)  # You can replace this with a more robust waiting mechanism such as WebDriverWait
 
     # Find the element using a CSS selector
-    element = browser.find_element(By.XPATH, "//*[@id='root']/div[1]/section[3]/div[3]/a")
-    element.click()
+    element = browser.find_element(By.XPATH, "//*[@name ='topic']")
+    element.send_keys("Telma")
 
 
 
