@@ -10,7 +10,7 @@ if __name__ == '__main__':
     browser.get("https://saya.net.in/")
     xpath = By.XPATH
     browser.implicitly_wait(10)  # implicit wait is used to find the element not attribute.. and it contain max time..
-    # if element find between the time limit then it will continue .
+    # if element find between the time limit then it will continue other parts of the scripts .
     search_bar = browser.find_element(xpath, "//*[@placeholder='Search your Medicine by Composition or Brand']")
     search_bar.send_keys("telma")
 
