@@ -1,8 +1,5 @@
 from selenium.webdriver.common.by import By
 from saya_care_automation.assets.assets_file import Assets
-import time
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class AuthAutomation:
@@ -48,9 +45,9 @@ class AuthAutomation:
         submit_otp = self.assets.single_element_find(xpath, submit_otp_x_path)
         submit_otp.click()
 
+    # search medicine
     def search_item(self):
         xpath = By.XPATH
-        # search medicine
         search_item_x_path = "//*[starts-with(@placeholder,'Search your Medicine')]"
         self.assets.explict_wait(5, xpath, search_item_x_path)
         search = self.assets.single_element_find(xpath, search_item_x_path)
@@ -69,16 +66,41 @@ class AuthAutomation:
         else:
             print("Search medicine is not available!!")
 
+    # Add medicine
     def product_and_add_medicine(self):
         xpath = By.XPATH
-        # Add medicine
         medicine_x_path = "//*[contains(@class ,'px-6') and contains(@class ,'py-2') and contains(@class ,'bg-lightOrange')]"
         add_med = self.assets.wait_until_element_not_click_able(xpath, medicine_x_path)
         add_med.click()
 
+    # Go to cart
     def go_to_cart(self):
         xpath = By.XPATH
-        # go to cart
         cart_button_x_path = "//*[starts-with(@class,'text-4xl hover:scale-110')]"
+        self.assets.explict_wait(5, xpath, cart_button_x_path)
         cart_btn = self.assets.single_element_find(xpath, cart_button_x_path)
         cart_btn.click()
+
+    def add_address(self):
+        pass
+
+    # checkout button
+    def checkout(self):
+        xpath = By.XPATH
+        proceed_to_checkout = "//*[text()='Proceed to Checkout']"
+        self.assets.explict_wait(5, xpath, proceed_to_checkout)
+        self.assets.mouse_hover(xpath, proceed_to_checkout)
+
+    def place_order(self):
+        xpath = By.XPATH
+
+        # choose cod
+        choose_code_x_path = '//*[@id = "cod_payment"]'
+        self.assets.explict_wait(5, xpath, choose_code_x_path)
+        click_on_cod = self.assets.single_element_find(xpath, choose_code_x_path)
+        click_on_cod.click()
+
+        # # place order
+        place_order_x_path = '//*[text()="Place Order"]'
+        self.assets.explict_wait(5, xpath, place_order_x_path)
+        self.assets.mouse_hover(xpath, place_order_x_path)
