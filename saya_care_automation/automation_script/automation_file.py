@@ -27,7 +27,7 @@ class AuthAutomation:
         otp_button.click()
 
         # OTP
-        otp = input("Enter OTP (note use '-' between every digit) : ")
+        otp = "1-2-3-4"
         if otp is not None:
             otp_x_path = "//*[starts-with(@aria-label,'Please enter OTP character')]"
             self.assets.explict_wait(5, xpath, otp_x_path)
