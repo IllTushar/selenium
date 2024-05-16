@@ -28,3 +28,17 @@ class Assets:
     def action_chain(self, xpath, attribute_x_path):
         self.action.move_to_element(
             self.browser.find_element(xpath, attribute_x_path)).click().perform()
+
+    def wait_until_element_not_click_able(self, xpath, attribute_x_path):
+        try:
+            medicine_add = WebDriverWait(self.browser, 20).until(
+                EC.element_to_be_clickable((xpath, attribute_x_path))
+            )
+            return medicine_add
+        except Exception as e:
+            print(f"Error while clicking on add medicine button: {e}")
+
+    def mouse_hover(self, xpath, attribute_x_path):
+        action = wd.ActionChains(self.browser, duration=2000)
+        action.move_to_element(
+            self.browser.find_element(xpath, attribute_x_path)).click().perform()

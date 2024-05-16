@@ -1,37 +1,40 @@
 from selenium.webdriver.common.by import By
 from saya_care_automation.assets.assets_file import Assets
+import time
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class AuthAutomation:
-    def auth_auto_function(self, phone_number):
-        assets = Assets()
-        assets.url()
-        xpath = By.XPATH
+    def __init__(self):
+        self.assets = Assets()
 
+    def auth_auto_function(self, phone_number):
         # open login window
-        login_x_path = "//*[text()='Login']"
-        assets.explict_wait(5, xpath, login_x_path)
-        login = assets.single_element_find(xpath, login_x_path)
-        login.click()
+        xpath = By.XPATH
+        # login_x_path = "//*[text()='Login']"
+        # self.assets.explict_wait(5, xpath, login_x_path)
+        # login = self.assets.single_element_find(xpath, login_x_path)
+        # login.click()
 
         # set phone_number in phone number field
         phone_number_x_path = "//*[starts-with(@placeholder , '12345')]"
-        assets.explict_wait(5, xpath, phone_number_x_path)
-        phone_number_field = assets.single_element_find(xpath, phone_number_x_path)
+        self.assets.explict_wait(5, xpath, phone_number_x_path)
+        phone_number_field = self.assets.single_element_find(xpath, phone_number_x_path)
         phone_number_field.send_keys(phone_number)
 
         # get otp button
         otp_button_file_path = "//*[text()='GET OTP']"
-        assets.explict_wait(5, xpath, otp_button_file_path)
-        otp_button = assets.single_element_find(xpath, otp_button_file_path)
+        self.assets.explict_wait(5, xpath, otp_button_file_path)
+        otp_button = self.assets.single_element_find(xpath, otp_button_file_path)
         otp_button.click()
 
         # OTP
         otp = input("Enter OTP (note use '-' between every digit) : ")
         if otp is not None:
             otp_x_path = "//*[starts-with(@aria-label,'Please enter OTP character')]"
-            assets.explict_wait(5, xpath, otp_x_path)
-            otp_boxes = assets.multiple_element_find(xpath, otp_x_path)
+            self.assets.explict_wait(5, xpath, otp_x_path)
+            otp_boxes = self.assets.multiple_element_find(xpath, otp_x_path)
             print(len(otp_boxes))
             for index, otp_box in enumerate(otp_boxes):
                 split = otp.split("-")
@@ -41,24 +44,22 @@ class AuthAutomation:
 
         # Submit OTP
         submit_otp_x_path = '//*[text()="Submit"]'
-        assets.explict_wait(5, xpath, submit_otp_x_path)
-        submit_otp = assets.single_element_find(xpath, submit_otp_x_path)
+        self.assets.explict_wait(5, xpath, submit_otp_x_path)
+        submit_otp = self.assets.single_element_find(xpath, submit_otp_x_path)
         submit_otp.click()
 
-        # go to search bar
-        self.search_item(assets, xpath)
-
-    def search_item(self, assets, xpath):
+    def search_item(self):
+        xpath = By.XPATH
         # search medicine
         search_item_x_path = "//*[starts-with(@placeholder,'Search your Medicine')]"
-        assets.explict_wait(5, xpath, search_item_x_path)
-        search = assets.single_element_find(xpath, search_item_x_path)
+        self.assets.explict_wait(5, xpath, search_item_x_path)
+        search = self.assets.single_element_find(xpath, search_item_x_path)
         search.send_keys("telma")
 
         # go to product page
         product_list_x_path = "//*[@role ='rowgroup']//a"
-        assets.explict_wait(5, xpath, product_list_x_path)
-        drug_list = assets.multiple_element_find(xpath, product_list_x_path)
+        self.assets.explict_wait(5, xpath, product_list_x_path)
+        drug_list = self.assets.multiple_element_find(xpath, product_list_x_path)
         if drug_list is not None:
             print(len(drug_list))
             for index, drug_name in enumerate(drug_list):
@@ -68,12 +69,16 @@ class AuthAutomation:
         else:
             print("Search medicine is not available!!")
 
-        # go to product page
-        self.product_and_add_medicine(assets, xpath)
+    def product_and_add_medicine(self):
+        xpath = By.XPATH
+        # Add medicine
+        medicine_x_path = "//*[contains(@class ,'px-6') and contains(@class ,'py-2') and contains(@class ,'bg-lightOrange')]"
+        add_med = self.assets.wait_until_element_not_click_able(xpath, medicine_x_path)
+        add_med.click()
 
-    def product_and_add_medicine(self, assets, xpath):
-        # add medicine
-        medicine_x_path = "//*[starts-with(@class ,'px-6 py-2 bg-lightOrange')]"
-        assets.explict_wait(20, xpath, medicine_x_path)
-        medicine_add = assets.single_element_find(xpath, medicine_x_path)
-        medicine_add.click()
+    def go_to_cart(self):
+        xpath = By.XPATH
+        # go to cart
+        cart_button_x_path = "//*[starts-with(@class,'text-4xl hover:scale-110')]"
+        cart_btn = self.assets.single_element_find(xpath, cart_button_x_path)
+        cart_btn.click()
